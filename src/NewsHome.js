@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { 
+import {
 	// makeStyles,
 	Card,
 	CardActionArea,
@@ -10,25 +10,25 @@ import {
 	InputBase,
 	Typography,
 	Container,
-	
+
 } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";	
-import {Pagination} from '@material-ui/lab';
+import { makeStyles } from "@material-ui/core/styles";
+import { Pagination } from '@material-ui/lab';
 
 const useStyles = makeStyles({
 	root: {
 		maxWidth: 385,
 	},
 	search: {
-    position: 'relative',
-    width: '100%',
+		position: 'relative',
+		width: '100%',
 		margin: '10px 0'
-  },
+	},
 	inputInput: {
-    padding: '10px',
-    width: '100%',
+		padding: '10px',
+		width: '100%',
 		border: '1px solid #000'
-  },
+	},
 	'& > *': {
 		marginTop: "10px",
 	},
@@ -53,48 +53,43 @@ const NewsHome = () => {
 	useEffect(() => {
 		const API_URL = `https://newsapi.org/v2/top-headlines?pageSize=${pageSize}&country=${newsCountry}&category=${newsCategory}&apiKey=${API_KEY}&page=${page}`;
 		(async () => {
-			let result = await fetch(API_URL, {
-				mode: 'cors',
-				headers: {
-					'Access-Control-Allow-Origin':'*'
-				}
-			});
-			result = await result.json()
-			setResult(result.articles);
+			let res = await fetch(API_URL);
+			res = await res.json()
+			setResult(res.articles);
 		})();
 	}, [page])
-	console.log(result)
-	const filteredNews = result.filter(news => {
-    return news.title.toLowerCase().includes(search.toLowerCase()) || news.description.toLowerCase().includes(search.toLowerCase())
-  })
-	console.log(filteredNews)
 	const nextPage = (event, updatedPage) => {
 		setPage(updatedPage)
 	}
 	const searchNews = (e) => {
 		setSearch(e.target.value);
 	}
-
+	console.log(result)
+	const filteredNews = result.filter(news => {
+		if (news.title && news.description !== null){
+			return news.title.toLowerCase().includes(search.toLowerCase()) || news.description.toLowerCase().includes(search.toLowerCase())
+		}
+	})
 
 	return (
 		<Container maxWidth="lg">
 			<div className={classes.search}>
-					<InputBase
-						placeholder="Search…"
-						onChange={(e)=>{searchNews(e)}}
-						className={classes.search}
-						classes={{
-							root: classes.inputRoot,
-							input: classes.inputInput,
-						}}
-						inputProps={{ 'aria-label': 'search' }}
-					/>
-				</div>
+				<InputBase
+					placeholder="Search…"
+					onChange={(e) => { searchNews(e) }}
+					className={classes.search}
+					classes={{
+						root: classes.inputRoot,
+						input: classes.inputInput,
+					}}
+					inputProps={{ 'aria-label': 'search' }}
+				/>
+			</div>
 			{filteredNews.length <= 0 ? (
 				<div>News not found. Searching for news...</div>
 			) : (
 				<>
-					
+
 					<div className={classes.parent}>
 						{filteredNews.map((value, index) => {
 							return (
