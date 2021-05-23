@@ -53,7 +53,12 @@ const NewsHome = () => {
 	useEffect(() => {
 		const API_URL = `https://newsapi.org/v2/top-headlines?pageSize=${pageSize}&country=${newsCountry}&category=${newsCategory}&apiKey=${API_KEY}&page=${page}`;
 		(async () => {
-			let result = await fetch(API_URL);
+			let result = await fetch(API_URL, {
+				mode: 'cors',
+				headers: {
+					'Access-Control-Allow-Origin':'*'
+				}
+			});
 			result = await result.json()
 			setResult(result.articles);
 		})();
