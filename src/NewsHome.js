@@ -10,10 +10,9 @@ import {
 	InputBase,
 	Typography,
 	Container,
-	fade
+	
 } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from "@material-ui/core/styles";	
 import {Pagination} from '@material-ui/lab';
 
 const useStyles = makeStyles({
