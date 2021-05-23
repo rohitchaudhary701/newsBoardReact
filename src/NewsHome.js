@@ -58,15 +58,18 @@ const NewsHome = () => {
 			setResult(result.articles);
 		})();
 	}, [page])
+	console.log(result)
+	const filteredNews = result.filter(news => {
+    return news.title.toLowerCase().includes(search.toLowerCase()) || news.description.toLowerCase().includes(search.toLowerCase())
+  })
+	console.log(filteredNews)
 	const nextPage = (event, updatedPage) => {
 		setPage(updatedPage)
 	}
 	const searchNews = (e) => {
 		setSearch(e.target.value);
 	}
-	const filteredNews = result.filter(news => {
-    return news.title.toLowerCase().includes(search.toLowerCase()) || news.description.toLowerCase().includes(search.toLowerCase())
-  })
+
 
 	return (
 		<Container maxWidth="lg">
